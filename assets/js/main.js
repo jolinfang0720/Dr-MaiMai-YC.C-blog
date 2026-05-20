@@ -60,7 +60,7 @@ function postCardHtml(post) {
     .map((t) => `<span class="post-tag">${escapeHtml(t)}</span>`)
     .join('');
   return `
-    <a href="post.html?slug=${encodeURIComponent(post.slug)}" class="post-card">
+    <a href="/posts/${encodeURIComponent(post.slug)}" class="post-card">
       <div class="post-tags">${tagsHtml}</div>
       <h3>${escapeHtml(post.title)}</h3>
       <p class="post-excerpt">${escapeHtml(post.excerpt || '')}</p>

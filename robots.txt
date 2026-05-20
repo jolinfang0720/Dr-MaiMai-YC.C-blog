@@ -1,4 +1,32 @@
 User-agent: *
 Allow: /
 
-Sitemap: /sitemap.xml
+# 主流搜尋引擎與 AI 爬蟲皆歡迎收錄
+User-agent: Googlebot
+Allow: /
+
+User-agent: bingbot
+Allow: /
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+Sitemap: https://dr-maimai-yc-c-blog.vercel.app/sitemap.xml

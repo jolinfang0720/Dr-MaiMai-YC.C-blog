@@ -33,6 +33,17 @@ Dr-MaiMai-YC.C-blog/
 
 ---
 
+## ⚡ 自動 SEO 渲染
+
+本網站使用 **GitHub Actions** 自動把您的 `.md` 文章轉成 SEO 完整的 `.html` 靜態頁面，
+包含：
+- 文章專屬 `<title>` / meta description / canonical
+- Open Graph + Twitter Card 標記
+- Schema.org `Article` + `MedicalWebPage` + `BreadcrumbList` 結構化資料
+- 自動同步 `sitemap.xml`
+
+→ AI 爬蟲（ChatGPT、Perplexity、Gemini）與 Google 都能完整讀到文章內容。
+
 ## ✍️ 如何新增一篇文章（GitHub 網頁操作，無須安裝任何軟體）
 
 每篇新文章需要 **2 個步驟**：

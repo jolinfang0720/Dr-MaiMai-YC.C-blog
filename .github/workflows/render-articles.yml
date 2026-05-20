@@ -1,0 +1,44 @@
+name: Render Markdown to HTML
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'posts/**.md'
+      - 'posts/posts.json'
+      - '.github/workflows/render-articles.yml'
+      - 'scripts/render-articles.js'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install marked@12
+
+      - name: Render markdown articles to HTML
+        run: node scripts/render-articles.js
+
+      - name: Commit rendered HTML
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add posts/*.html sitemap.xml
+          if git diff --staged --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "chore: auto-render articles to HTML [skip ci]"
+            git push
+          fi

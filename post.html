@@ -2,105 +2,18 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>衛教文章｜鄭毓璋醫師</title>
-  <meta name="description" id="meta-description" content="鄭毓璋醫師衛教文章" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="assets/css/style.css" />
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/dompurify@3.0.6/dist/purify.min.js"></script>
+  <meta name="robots" content="noindex,follow" />
+  <title>跳轉中⋯⋯｜鄭毓璋醫師</title>
+  <link rel="canonical" href="https://dr-maimai-yc-c-blog.vercel.app/blog" />
+  <script>
+    (function () {
+      var slug = new URLSearchParams(location.search).get('slug');
+      location.replace(slug ? '/posts/' + encodeURIComponent(slug) : '/blog');
+    })();
+  </script>
+  <meta http-equiv="refresh" content="0;url=/blog" />
 </head>
 <body>
-  <header class="site-header">
-    <div class="container header-inner">
-      <a href="index.html" class="brand">
-        <span class="brand-mark" aria-hidden="true">
-          <svg viewBox="0 0 24 24"><path d="M11 2v2"/><path d="M5 2v2"/><path d="M5 3H4a2 2 0 0 0-2 2v4a6 6 0 0 0 12 0V5a2 2 0 0 0-2-2h-1"/><path d="M8 15a6 6 0 0 0 12 0v-3"/><circle cx="20" cy="10" r="2"/></svg>
-        </span>
-        <span class="brand-text"><strong>鄭毓璋醫師</strong><small>大腸直腸外科</small></span>
-      </a>
-      <nav class="site-nav" aria-label="主選單">
-        <button class="nav-toggle" aria-label="開啟選單" aria-expanded="false"><span></span><span></span><span></span></button>
-        <ul class="nav-list">
-          <li><a href="index.html">首頁</a></li>
-          <li><a href="about.html">關於醫師</a></li>
-          <li><a href="blog.html" class="active">衛教文章</a></li>
-          <li><a href="contact.html">聯絡資訊</a></li>
-        </ul>
-      </nav>
-    </div>
-  </header>
-
-  <main>
-    <article class="article">
-      <div class="container narrow">
-        <a href="blog.html" class="back-link">← 返回文章列表</a>
-        <header class="article-head">
-          <div id="post-tags" class="post-tags"></div>
-          <h1 id="post-title">載入中…</h1>
-          <div class="article-meta">
-            <span id="post-author">鄭毓璋醫師</span>
-            <span id="post-date"></span>
-          </div>
-        </header>
-
-        <div id="post-content" class="article-body">
-          <p class="loading">載入文章內容中…</p>
-        </div>
-
-        <aside class="author-card">
-          <div class="bio-avatar small" aria-hidden="true">鄭</div>
-          <div>
-            <strong>關於鄭毓璋醫師</strong>
-            <p>
-              鄭毓璋醫師為台中榮逸聯合診所大腸直腸外科主治醫師，擁有中華民國大腸直腸外科專科醫師及一般外科專科醫師雙執照，
-              專精微創痔瘡手術，包括雷射痔瘡消融術（LHP）及環狀痔瘡切除手術。
-              如有相關症狀，歡迎至榮逸聯合診所諮詢。
-            </p>
-            <p>
-              診所網站：<a href="https://rong-yi.com.tw" target="_blank" rel="noopener">https://rong-yi.com.tw</a>
-            </p>
-          </div>
-        </aside>
-
-        <nav class="post-nav" id="post-nav" aria-label="文章導覽"></nav>
-      </div>
-    </article>
-  </main>
-
-  <footer class="site-footer">
-    <div class="container footer-grid">
-      <div>
-        <strong>鄭毓璋醫師</strong>
-        <p>大腸直腸外科 ・ 一般外科 雙專科</p>
-        <p>台中榮逸聯合診所 主治醫師</p>
-      </div>
-      <div>
-        <strong>連結</strong>
-        <ul>
-          <li><a href="index.html">首頁</a></li>
-          <li><a href="about.html">關於醫師</a></li>
-          <li><a href="blog.html">衛教文章</a></li>
-          <li><a href="contact.html">聯絡資訊</a></li>
-        </ul>
-      </div>
-      <div>
-        <strong>免責聲明</strong>
-        <p class="footer-note">本網站資訊僅供衛教參考，不能取代專業醫療診斷。如有任何健康問題，請至醫療院所由專業醫師親自評估。</p>
-      </div>
-    </div>
-    <div class="container footer-bottom">
-      <small>© <span id="year"></span> 鄭毓璋醫師 ・ 榮逸聯合診所</small>
-    </div>
-  </footer>
-
-  <script src="assets/js/main.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      if (typeof renderSinglePost === 'function') renderSinglePost();
-    });
-  </script>
+  <p>正在跳轉至 <a href="/blog">衛教文章列表</a>⋯⋯</p>
 </body>
 </html>
