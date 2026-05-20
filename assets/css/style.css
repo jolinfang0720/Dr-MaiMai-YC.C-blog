@@ -112,6 +112,13 @@ p { color: var(--ink-700); }
   stroke-linecap: round;
   stroke-linejoin: round;
 }
+.brand-mark img {
+  width: 28px;
+  height: 28px;
+  display: block;
+  /* 把深色 PNG 反白以在漸層底色上清楚顯示 */
+  filter: brightness(0) invert(1);
+}
 .brand-text { display: flex; flex-direction: column; line-height: 1.15; }
 .brand-text strong { font-size: 1.05rem; }
 .brand-text small { color: var(--ink-500); font-size: 0.78rem; }
