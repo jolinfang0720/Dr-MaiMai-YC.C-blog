@@ -103,6 +103,15 @@ p { color: var(--ink-700); }
   font-size: 1.15rem;
   box-shadow: var(--shadow-sm);
 }
+.brand-mark svg {
+  width: 26px;
+  height: 26px;
+  stroke: #fff;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
 .brand-text { display: flex; flex-direction: column; line-height: 1.15; }
 .brand-text strong { font-size: 1.05rem; }
 .brand-text small { color: var(--ink-500); font-size: 0.78rem; }
