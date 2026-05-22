@@ -197,6 +197,14 @@ p { color: var(--ink-700); }
   margin-bottom: 18px;
   color: var(--ink-900);
 }
+.hero-h1-sub {
+  display: block;
+  font-size: 0.6em;
+  font-weight: 500;
+  color: var(--ink-700);
+  margin-top: 6px;
+  letter-spacing: -0.005em;
+}
 .hero-text .lead {
   font-size: 1.08rem;
   color: var(--ink-600);

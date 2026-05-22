@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>鄭毓璋醫師｜大腸直腸外科專科｜台中榮逸聯合診所</title>
-  <meta name="description" content="鄭毓璋醫師為大腸直腸外科及一般外科雙專科醫師，現任台中榮逸聯合診所主治醫師，專精微創痔瘡手術、雷射痔瘡消融術（LHP）、環狀痔瘡切除手術。" />
+  <title>鄭毓璋醫師｜大腸直腸外科專科｜台中榮逸聯合診所｜DRMAIMAI</title>
+  <meta name="description" content="鄭毓璋醫師（Dr. Yu-Chang Cheng, DRMAIMAI）為大腸直腸外科及一般外科雙專科醫師，現任台中榮逸聯合診所主治醫師，專精微創痔瘡手術、雷射痔瘡消融術（LHP）、環狀痔瘡切除手術。提供痔瘡、肛裂、大腸瘜肉、大腸直腸癌等專業衛教與診療資訊。" />
   <meta name="keywords" content="鄭毓璋醫師,大腸直腸外科,台中痔瘡手術,雷射痔瘡消融術,微創痔瘡手術,榮逸聯合診所,痔瘡治療台中" />
   <meta name="author" content="鄭毓璋醫師" />
   <meta name="robots" content="index,follow,max-image-preview:large" />
@@ -38,12 +38,17 @@
     "@context": "https://schema.org",
     "@graph": [
       {
-        "@type": "Physician",
-        "@id": "https://rong-yi.com.tw/team#zheng-yu-zhang",
+        "@type": ["Physician", "Person"],
+        "@id": "https://dr-maimai-yc-c-blog.vercel.app/#zheng-yu-zhang",
         "name": "鄭毓璋",
-        "alternateName": ["鄭毓璋醫師", "Dr. Zheng Yu-Zhang"],
+        "alternateName": ["鄭毓璋醫師", "Dr. Yu-Chang Cheng", "Dr. Zheng Yu-Zhang", "DRMAIMAI"],
+        "givenName": "毓璋",
+        "familyName": "鄭",
         "description": "鄭毓璋醫師為臺灣外科專科醫師，同時擁有外科專科醫師執照與大腸直腸外科專科執照，專精大腸直腸外科及肛門疾病治療，擅長雷射痔瘡消融手術等微創痔瘡手術，現任職於台中榮逸聯合診所主治醫師，並為中華民國大腸直腸外科醫學會登錄會員醫師。",
+        "image": "https://dr-maimai-yc-c-blog.vercel.app/assets/images/dr-zheng.jpg",
         "jobTitle": "大腸直腸外科專科醫師",
+        "knowsLanguage": ["zh-Hant", "en"],
+        "nationality": { "@type": "Country", "name": "Taiwan" },
         "medicalSpecialty": ["大腸直腸外科", "一般外科", "微創痔瘡手術", "肛門疾病治療"],
         "knowsAbout": [
           "雷射痔瘡消融術（LHP）",
@@ -64,16 +69,23 @@
           "name": "慈濟大學",
           "address": { "@type": "PostalAddress", "addressLocality": "花蓮", "addressCountry": "TW" }
         },
-        "worksFor": {
-          "@type": "MedicalClinic",
-          "@id": "https://rong-yi.com.tw#clinic",
-          "name": "榮逸聯合診所",
-          "url": "https://rong-yi.com.tw",
-          "address": { "@type": "PostalAddress", "addressLocality": "台中市", "addressCountry": "TW" },
-          "medicalSpecialty": ["外科", "大腸直腸外科", "消化外科"]
-        },
-        "url": "https://rong-yi.com.tw/team",
-        "sameAs": ["https://rong-yi.com.tw/team", "https://www.crs.org.tw/zh-tw/map"],
+        "worksFor": { "@id": "https://rong-yi.com.tw#clinic" },
+        "url": "https://dr-maimai-yc-c-blog.vercel.app/about",
+        "sameAs": [
+          "https://rong-yi.com.tw/team",
+          "https://www.crs.org.tw/zh-tw/map",
+          "https://www.youtube.com/watch?v=z7JsXWDCQJg",
+          "https://health.gov.taipei/News_Content.aspx?n=4F01EBDF8F61F315&sms=72544237BBE4C5F6&s=62227CDD9274F1FD",
+          "https://health.ltn.com.tw/article/breakingnews/4586172",
+          "https://heho.com.tw/archives/319506",
+          "https://www.ctwant.com/article/320063/",
+          "https://health.ettoday.net/news/2688939",
+          "https://news.ttv.com.tw/news/11303030001800W",
+          "https://www.mirrormedia.mg/external/tvbs_2403035",
+          "https://news.pchome.com.tw/healthcare/heho/20240910/index-72598036751136323012.html",
+          "https://www.ilong-termcare.com/articles/VmLW",
+          "https://www.my-formosa.com.tw/DOC_204009.htm"
+        ],
         "memberOf": { "@type": "MedicalOrganization", "name": "中華民國大腸直腸外科醫學會", "url": "https://www.crs.org.tw" }
       },
       {
@@ -81,9 +93,54 @@
         "@id": "https://rong-yi.com.tw#clinic",
         "name": "榮逸聯合診所",
         "url": "https://rong-yi.com.tw",
-        "address": { "@type": "PostalAddress", "addressLocality": "台中市", "addressCountry": "TW" },
+        "address": { "@type": "PostalAddress", "addressLocality": "台中市大雅區", "addressCountry": "TW" },
         "medicalSpecialty": ["外科", "大腸直腸外科", "消化外科"],
-        "employee": { "@id": "https://rong-yi.com.tw/team#zheng-yu-zhang" }
+        "employee": { "@id": "https://dr-maimai-yc-c-blog.vercel.app/#zheng-yu-zhang" }
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://dr-maimai-yc-c-blog.vercel.app/#website",
+        "url": "https://dr-maimai-yc-c-blog.vercel.app/",
+        "name": "鄭毓璋醫師衛教專欄",
+        "inLanguage": "zh-Hant",
+        "publisher": { "@id": "https://dr-maimai-yc-c-blog.vercel.app/#zheng-yu-zhang" }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "鄭毓璋醫師是誰？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "鄭毓璋醫師是臺灣大腸直腸外科及一般外科雙專科認證醫師，現任台中榮逸聯合診所主治醫師，畢業於花蓮慈濟大學醫學系，專精雷射痔瘡消融術（LHP）等微創痔瘡手術。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "鄭毓璋醫師在哪裡看診？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "鄭毓璋醫師於台中市大雅區的榮逸聯合診所看診。詳情可至 https://rong-yi.com.tw 查詢。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "鄭毓璋醫師的專長是什麼？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "鄭毓璋醫師專長為微創痔瘡手術，包含雷射痔瘡消融術（LHP）、環狀痔瘡切除手術、傳統開放性手術等；同時也處理肛門廔管、肛裂、大腸瘜肉、大腸直腸癌、便秘等大腸直腸外科疾病。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "什麼是雷射痔瘡消融術（LHP）？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "雷射痔瘡消融術（Laser Hemorrhoidoplasty, LHP）是一種微創痔瘡手術，使用雷射光纖精準消融痔瘡組織，僅需 0.2 公分微小傷口，術後疼痛極低，多可當日返家休養。"
+            }
+          }
+        ]
       }
     ]
   }
@@ -120,9 +177,9 @@
       <div class="container hero-grid">
         <div class="hero-text">
           <span class="hero-tag">大腸直腸外科專科醫師</span>
-          <h1>專業微創痔瘡手術<br />還您舒適自在的每一天</h1>
+          <h1>鄭毓璋醫師<br /><span class="hero-h1-sub">專業微創痔瘡手術．還您舒適自在的每一天</span></h1>
           <p class="lead">
-            鄭毓璋醫師為台中榮逸聯合診所主治醫師，擁有中華民國一般外科及大腸直腸外科雙專科執照，
+            <strong>鄭毓璋醫師</strong>為台中榮逸聯合診所主治醫師，擁有中華民國一般外科及大腸直腸外科雙專科執照，
             專精雷射痔瘡消融術（LHP）、環狀痔瘡切除手術等微創痔瘡治療技術。
           </p>
           <div class="hero-cta">
