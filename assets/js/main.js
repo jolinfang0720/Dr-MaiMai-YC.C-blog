@@ -20,6 +20,119 @@
 })();
 
 /* -----------------------------------------------------------
+   Header 透明 → 捲動或聚焦時變白底
+   ----------------------------------------------------------- */
+(function () {
+  const header = document.querySelector('.site-header');
+  if (!header) return;
+
+  function onScroll() {
+    if (window.scrollY > 40) header.classList.add('is-scrolled');
+    else header.classList.remove('is-scrolled');
+  }
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  // 鍵盤聚焦時也視為「使用中」
+  header.addEventListener('focusin', () => header.classList.add('is-focused'));
+  header.addEventListener('focusout', () => header.classList.remove('is-focused'));
+})();
+
+/* -----------------------------------------------------------
+   自製語言切換器 — 點選後同步至隱藏的 Google Translate <select>
+   ----------------------------------------------------------- */
+(function () {
+  const switchers = document.querySelectorAll('[data-lang-switcher]');
+  if (!switchers.length) return;
+
+  // 從 cookie 讀取目前語言（Google Translate 寫入的 googtrans）
+  function getCurrentLang() {
+    const m = document.cookie.match(/googtrans=\/[^/]+\/([^;]+)/);
+    return m ? m[1] : 'zh-TW';
+  }
+
+  // 等 Google Translate select 出現後再呼叫
+  function waitForGoogleSelect(maxMs = 8000) {
+    return new Promise((resolve) => {
+      const start = Date.now();
+      const tick = () => {
+        const sel = document.querySelector('.goog-te-combo');
+        if (sel) return resolve(sel);
+        if (Date.now() - start > maxMs) return resolve(null);
+        setTimeout(tick, 120);
+      };
+      tick();
+    });
+  }
+
+  function setLang(lang) {
+    waitForGoogleSelect().then((sel) => {
+      if (!sel) {
+        console.warn('Google Translate not ready');
+        return;
+      }
+      sel.value = lang;
+      sel.dispatchEvent(new Event('change'));
+    });
+  }
+
+  switchers.forEach((root) => {
+    const btn = root.querySelector('.lang-button');
+    const menu = root.querySelector('.lang-menu');
+    const flagBtn = btn.querySelector('.lang-flag');
+    const labelBtn = btn.querySelector('.lang-name-short');
+    const options = root.querySelectorAll('.lang-option');
+
+    // 標記目前語言
+    const cur = getCurrentLang();
+    options.forEach((o) => {
+      o.classList.toggle('is-current', o.dataset.lang === cur);
+      if (o.dataset.lang === cur) {
+        flagBtn.textContent = o.querySelector('.lang-flag').textContent;
+        labelBtn.textContent = o.querySelector('.lang-name').textContent.slice(0, 6);
+      }
+    });
+
+    // 開關下拉
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isOpen = root.classList.toggle('is-open');
+      btn.setAttribute('aria-expanded', String(isOpen));
+    });
+
+    // 點外面關閉
+    document.addEventListener('click', (e) => {
+      if (!root.contains(e.target)) {
+        root.classList.remove('is-open');
+        btn.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    // ESC 鍵關閉
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        root.classList.remove('is-open');
+        btn.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    // 選擇語言
+    options.forEach((opt) => {
+      opt.addEventListener('click', () => {
+        const lang = opt.dataset.lang;
+        options.forEach((o) => o.classList.remove('is-current'));
+        opt.classList.add('is-current');
+        flagBtn.textContent = opt.querySelector('.lang-flag').textContent;
+        labelBtn.textContent = opt.querySelector('.lang-name').textContent.slice(0, 6);
+        root.classList.remove('is-open');
+        btn.setAttribute('aria-expanded', 'false');
+        setLang(lang);
+      });
+    });
+  });
+})();
+
+/* -----------------------------------------------------------
    Scroll-reveal：元素進入視窗時加 .in-view 觸發 CSS 動畫
    ----------------------------------------------------------- */
 (function () {

@@ -45,7 +45,22 @@
           <li><a href="blog.html" class="active">衛教文章</a></li>
           <li><a href="contact.html">聯絡資訊</a></li>
         </ul>
-        <div id="google_translate_element" aria-label="語言切換 Language"></div>
+        <div class="lang-switcher" data-lang-switcher>
+          <button type="button" class="lang-button" aria-haspopup="listbox" aria-expanded="false" aria-label="切換語言 / Switch language">
+            <span class="lang-flag">🇹🇼</span>
+            <span class="lang-name-short">中文</span>
+            <svg class="lang-chevron" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4.5L6 7.5L9 4.5"/></svg>
+          </button>
+          <div class="lang-menu" role="listbox" aria-label="可選語言">
+            <button type="button" class="lang-option is-current" data-lang="zh-TW" role="option"><span class="lang-flag">🇹🇼</span><span class="lang-name">繁體中文</span></button>
+            <button type="button" class="lang-option" data-lang="en"    role="option"><span class="lang-flag">🇺🇸</span><span class="lang-name">English</span><span class="lang-native">English</span></button>
+            <button type="button" class="lang-option" data-lang="ja"    role="option"><span class="lang-flag">🇯🇵</span><span class="lang-name">日本語</span><span class="lang-native">Japanese</span></button>
+            <button type="button" class="lang-option" data-lang="ko"    role="option"><span class="lang-flag">🇰🇷</span><span class="lang-name">한국어</span><span class="lang-native">Korean</span></button>
+            <button type="button" class="lang-option" data-lang="vi"    role="option"><span class="lang-flag">🇻🇳</span><span class="lang-name">Tiếng Việt</span><span class="lang-native">Vietnamese</span></button>
+            <button type="button" class="lang-option" data-lang="zh-CN" role="option"><span class="lang-flag">🇨🇳</span><span class="lang-name">简体中文</span></button>
+          </div>
+        </div>
+        <div id="google_translate_element" aria-hidden="true"></div>
       </nav>
     </div>
   </header>
