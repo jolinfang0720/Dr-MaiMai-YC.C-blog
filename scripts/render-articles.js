@@ -145,6 +145,7 @@ ${JSON.stringify(schema, null, 2)}
           <li><a href="/blog" class="active">衛教文章</a></li>
           <li><a href="/contact">聯絡資訊</a></li>
         </ul>
+        <div id="google_translate_element" aria-label="語言切換 Language"></div>
       </nav>
     </div>
   </header>
@@ -205,6 +206,18 @@ ${bodyHtml}
   </footer>
 
   <script src="/assets/js/main.js"></script>
+
+  <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({
+        pageLanguage: 'zh-TW',
+        includedLanguages: 'en,vi,ja,ko,zh-CN',
+        layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+        autoDisplay: false
+      }, 'google_translate_element');
+    }
+  </script>
+  <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" async></script>
 </body>
 </html>
 `;

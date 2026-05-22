@@ -1,21 +1,21 @@
 :root {
-  /* 水藍主色系 */
-  --blue-50:  #F0F9FF;
-  --blue-100: #E0F2FE;
-  --blue-200: #BAE6FD;
-  --blue-300: #7DD3FC;
-  --blue-500: #0EA5E9;
-  --blue-600: #0284C7;
-  --blue-700: #0369A1;
-  --blue-800: #075985;
+  /* 若草色系 wakakusa-iro（黃綠主色） */
+  --blue-50:  #F7FAE9;
+  --blue-100: #ECEFC7;
+  --blue-200: #DCE596;
+  --blue-300: #C3D825;
+  --blue-500: #ADC72F;
+  --blue-600: #94AD27;
+  --blue-700: #75881F;
+  --blue-800: #556318;
 
-  /* 淡綠輔色系 */
-  --green-50:  #F0FDF4;
-  --green-100: #DCFCE7;
-  --green-200: #BBF7D0;
-  --green-300: #86EFAC;
-  --green-500: #22C55E;
-  --green-600: #16A34A;
+  /* 若緑系 wakamidori（深綠輔色） */
+  --green-50:  #F2F7EA;
+  --green-100: #DDE9C7;
+  --green-200: #B6CE7E;
+  --green-300: #94B85D;
+  --green-500: #7BA23F;
+  --green-600: #5E7E2D;
 
   /* 中性色 */
   --ink-900: #0F172A;
@@ -31,9 +31,9 @@
 
   --radius: 14px;
   --radius-sm: 8px;
-  --shadow-sm: 0 1px 2px rgba(2, 132, 199, 0.06), 0 1px 3px rgba(2, 132, 199, 0.05);
-  --shadow-md: 0 4px 12px rgba(2, 132, 199, 0.08), 0 2px 4px rgba(2, 132, 199, 0.05);
-  --shadow-lg: 0 12px 32px rgba(2, 132, 199, 0.12), 0 4px 8px rgba(2, 132, 199, 0.06);
+  --shadow-sm: 0 1px 2px rgba(94, 126, 45, 0.06), 0 1px 3px rgba(94, 126, 45, 0.05);
+  --shadow-md: 0 4px 12px rgba(94, 126, 45, 0.10), 0 2px 4px rgba(94, 126, 45, 0.06);
+  --shadow-lg: 0 12px 32px rgba(94, 126, 45, 0.14), 0 4px 8px rgba(94, 126, 45, 0.07);
 
   --font-sans: 'Noto Sans TC', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang TC', 'Microsoft JhengHei', sans-serif;
 }
@@ -167,14 +167,33 @@ p { color: var(--ink-700); }
   position: relative;
   padding: 80px 0 96px;
   background-color: var(--blue-50);
-  background-image:
-    /* 上層蒙版：水藍 60% + 淡綠 55%（讓照片明顯可見） */
-    linear-gradient(135deg, rgba(240, 249, 255, 0.65) 0%, rgba(220, 252, 231, 0.60) 100%),
-    /* 醫師手術照片 */
-    url('/assets/images/hero-surgery.jpg');
-  background-position: center, center 25%;
-  background-size: cover, cover;
-  background-repeat: no-repeat, no-repeat;
+  overflow: hidden;
+}
+.hero::before {
+  /* 醫師手術照片底層 - 含緩慢 zoom-in 動畫 */
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url('/assets/images/hero-surgery.jpg') center 25% / cover no-repeat;
+  z-index: -2;
+  animation: heroZoom 22s ease-out forwards;
+  will-change: transform;
+}
+.hero::after {
+  /* 上層蒙版：若草 65% + 若綠 55%（保持清爽日式感） */
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(135deg, rgba(247, 250, 233, 0.68) 0%, rgba(242, 247, 234, 0.58) 100%),
+    radial-gradient(900px 400px at -10% -20%, rgba(195, 216, 37, 0.18), transparent 70%),
+    radial-gradient(700px 400px at 110% 0%, rgba(123, 162, 63, 0.16), transparent 60%);
+  z-index: -1;
+  pointer-events: none;
+}
+@keyframes heroZoom {
+  from { transform: scale(1); }
+  to   { transform: scale(1.08); }
 }
 .hero-grid {
   display: grid;
@@ -320,15 +339,15 @@ p { color: var(--ink-700); }
   white-space: nowrap;
 }
 .btn-primary {
-  background: var(--blue-600);
+  background: var(--green-500);
   color: #fff;
-  box-shadow: 0 4px 12px rgba(2, 132, 199, 0.25);
+  box-shadow: 0 4px 12px rgba(94, 126, 45, 0.28);
 }
 .btn-primary:hover {
-  background: var(--blue-700);
+  background: var(--green-600);
   color: #fff;
   transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(2, 132, 199, 0.32);
+  box-shadow: 0 6px 16px rgba(94, 126, 45, 0.38);
 }
 .btn-secondary {
   background: #fff;
@@ -908,6 +927,136 @@ p { color: var(--ink-700); }
   border-radius: var(--radius);
 }
 
+/* ===========================================================
+   Scroll-reveal 動畫
+   =========================================================== */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.reveal.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+/* 卡片群組 stagger 效果（後面的卡片晚一點亮起） */
+.grid-cards .reveal.in-view:nth-child(2) { transition-delay: 0.08s; }
+.grid-cards .reveal.in-view:nth-child(3) { transition-delay: 0.16s; }
+.grid-cards .reveal.in-view:nth-child(4) { transition-delay: 0.24s; }
+.grid-cards .reveal.in-view:nth-child(5) { transition-delay: 0.32s; }
+.grid-cards .reveal.in-view:nth-child(6) { transition-delay: 0.40s; }
+
+/* 尊重使用者「減少動畫」設定 */
+@media (prefers-reduced-motion: reduce) {
+  .reveal, .reveal.in-view {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  .hero::before { animation: none !important; }
+}
+
+/* ===========================================================
+   玻璃擬真游標（僅桌機 hover 裝置啟用）
+   =========================================================== */
+.glass-cursor {
+  position: fixed;
+  top: 0; left: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(10px) saturate(160%);
+  -webkit-backdrop-filter: blur(10px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow:
+    0 4px 20px rgba(94, 126, 45, 0.15),
+    inset 0 1px 1px rgba(255, 255, 255, 0.6);
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+  transition:
+    width 0.22s cubic-bezier(0.22, 1, 0.36, 1),
+    height 0.22s cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 0.22s ease,
+    border-radius 0.22s ease;
+  opacity: 0;
+}
+.glass-cursor.is-active { opacity: 1; }
+.glass-cursor.is-hovering {
+  width: 56px;
+  height: 56px;
+  background: rgba(195, 216, 37, 0.20);
+  border-color: rgba(123, 162, 63, 0.55);
+}
+.glass-cursor.is-clicking {
+  width: 22px;
+  height: 22px;
+  background: rgba(123, 162, 63, 0.35);
+}
+/* 桌機 hover 裝置：隱藏系統游標讓玻璃游標獨家上場 */
+@media (hover: hover) and (pointer: fine) {
+  html, body { cursor: none; }
+  a, button, input, select, textarea, [role="button"], .post-card, .tag-btn { cursor: none; }
+}
+/* 觸控裝置不顯示自訂游標、保留系統指標 */
+@media (hover: none), (pointer: coarse) {
+  .glass-cursor { display: none !important; }
+  html, body, a, button { cursor: auto; }
+}
+
+/* ===========================================================
+   Google Translate 語言切換器（藏 Google 預設外觀，套自家樣式）
+   =========================================================== */
+#google_translate_element {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 8px;
+}
+.goog-te-banner-frame.skiptranslate,
+.goog-te-gadget-icon,
+.goog-tooltip,
+.goog-tooltip:hover,
+.goog-text-highlight {
+  display: none !important;
+  background: none !important;
+  box-shadow: none !important;
+}
+body { top: 0 !important; }
+.goog-te-gadget {
+  font-family: var(--font-sans) !important;
+  font-size: 0 !important; /* 隱藏 "Powered by Google" 文字 */
+  color: transparent !important;
+}
+.goog-te-gadget > span,
+.goog-te-gadget > div { display: none !important; }
+.goog-te-gadget > select,
+.goog-te-gadget .goog-te-combo {
+  font-family: var(--font-sans) !important;
+  font-size: 0.88rem !important;
+  padding: 7px 28px 7px 12px !important;
+  border: 1px solid var(--ink-200) !important;
+  border-radius: 8px !important;
+  background: #fff !important;
+  color: var(--ink-700) !important;
+  cursor: pointer !important;
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'><path fill='%23475569' d='M5 6L0 0h10z'/></svg>") !important;
+  background-repeat: no-repeat !important;
+  background-position: right 10px center !important;
+  transition: border-color 0.2s, box-shadow 0.2s !important;
+}
+.goog-te-gadget .goog-te-combo:hover {
+  border-color: var(--green-500) !important;
+}
+.goog-te-gadget .goog-te-combo:focus {
+  outline: none !important;
+  border-color: var(--green-500) !important;
+  box-shadow: 0 0 0 3px rgba(123, 162, 63, 0.18) !important;
+}
+
 /* ===== Responsive ===== */
 @media (max-width: 860px) {
   .hero { padding: 60px 0 72px; }
@@ -966,4 +1115,25 @@ p { color: var(--ink-700); }
   .info-block { padding: 22px; }
   .hero-text h1 { font-size: 1.9rem; }
   .blog-toolbar { flex-direction: column; align-items: stretch; }
+
+  /* 行動版：語言切換器縮小避免擠壓漢堡選單 */
+  #google_translate_element { margin-left: 4px; }
+  .goog-te-gadget .goog-te-combo {
+    padding: 6px 22px 6px 8px !important;
+    font-size: 0.78rem !important;
+    max-width: 90px;
+  }
+}
+
+/* 更窄螢幕：簡化 H1 + 進一步壓縮語言選單 */
+@media (max-width: 420px) {
+  .hero-text h1 { font-size: 1.65rem; }
+  .hero-h1-sub { font-size: 0.7em; }
+  .hero { padding: 56px 0 64px; }
+  .goog-te-gadget .goog-te-combo {
+    padding: 5px 18px 5px 6px !important;
+    font-size: 0.72rem !important;
+    max-width: 72px;
+  }
+  .brand-text small { display: none; } /* 騰出空間給語言選單 */
 }
