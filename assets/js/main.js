@@ -59,65 +59,6 @@
   }
 })();
 
-/* -----------------------------------------------------------
-   玻璃擬真自訂游標（只在 hover-capable 桌面裝置啟用）
-   ----------------------------------------------------------- */
-(function () {
-  const hoverable = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-  if (!hoverable) return;
-
-  function setup() {
-    const cursor = document.createElement('div');
-    cursor.className = 'glass-cursor';
-    cursor.setAttribute('aria-hidden', 'true');
-    document.body.appendChild(cursor);
-
-    let x = 0, y = 0, tx = 0, ty = 0, rafId = null;
-
-    function loop() {
-      // 緩動跟隨：游標往滑鼠位置補間
-      x += (tx - x) * 0.22;
-      y += (ty - y) * 0.22;
-      cursor.style.transform = `translate(${x}px, ${y}px) translate(-50%, -50%)`;
-      rafId = requestAnimationFrame(loop);
-    }
-
-    window.addEventListener('mousemove', (e) => {
-      tx = e.clientX;
-      ty = e.clientY;
-      if (!cursor.classList.contains('is-active')) {
-        cursor.classList.add('is-active');
-        x = tx; y = ty; // 第一次出現直接定位
-      }
-      if (!rafId) loop();
-    }, { passive: true });
-
-    document.addEventListener('mouseleave', () => cursor.classList.remove('is-active'));
-    document.addEventListener('mouseenter', () => cursor.classList.add('is-active'));
-
-    window.addEventListener('mousedown', () => cursor.classList.add('is-clicking'));
-    window.addEventListener('mouseup',   () => cursor.classList.remove('is-clicking'));
-
-    // 連結/按鈕 hover 時放大
-    const hoverSelectors = 'a, button, [role="button"], .post-card, .card, .tag-btn, input, select, textarea';
-    document.addEventListener('mouseover', (e) => {
-      if (e.target.closest && e.target.closest(hoverSelectors)) {
-        cursor.classList.add('is-hovering');
-      }
-    });
-    document.addEventListener('mouseout', (e) => {
-      if (e.target.closest && e.target.closest(hoverSelectors)) {
-        cursor.classList.remove('is-hovering');
-      }
-    });
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', setup);
-  } else {
-    setup();
-  }
-})();
 
 /* -----------------------------------------------------------
    讀取文章清單 (posts/posts.json)

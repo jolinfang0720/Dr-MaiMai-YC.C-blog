@@ -959,53 +959,97 @@ p { color: var(--ink-700); }
 }
 
 /* ===========================================================
-   玻璃擬真游標（僅桌機 hover 裝置啟用）
+   玻璃擬真 Hover 效果（滑鼠移到可點擊元件時，元件變玻璃感）
    =========================================================== */
-.glass-cursor {
-  position: fixed;
-  top: 0; left: 0;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.18);
-  backdrop-filter: blur(10px) saturate(160%);
-  -webkit-backdrop-filter: blur(10px) saturate(160%);
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  box-shadow:
-    0 4px 20px rgba(94, 126, 45, 0.15),
-    inset 0 1px 1px rgba(255, 255, 255, 0.6);
-  pointer-events: none;
-  transform: translate(-50%, -50%);
-  z-index: 9999;
-  transition:
-    width 0.22s cubic-bezier(0.22, 1, 0.36, 1),
-    height 0.22s cubic-bezier(0.22, 1, 0.36, 1),
-    background-color 0.22s ease,
-    border-radius 0.22s ease;
+
+/* 共用：所有可點擊元件出現指標游標 */
+a, button, [role="button"], .post-card, .card, .tag-btn { cursor: pointer; }
+
+/* Nav 連結：hover 時長出霧化玻璃底 */
+.nav-list a {
+  position: relative;
+  overflow: hidden;
+  z-index: 0;
+  transition: color 0.25s ease;
+}
+.nav-list a::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg,
+    rgba(255, 255, 255, 0.65) 0%,
+    rgba(195, 216, 37, 0.18) 100%);
+  backdrop-filter: blur(10px) saturate(180%);
+  -webkit-backdrop-filter: blur(10px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  border-radius: inherit;
   opacity: 0;
+  transition: opacity 0.28s ease;
+  z-index: -1;
+  pointer-events: none;
 }
-.glass-cursor.is-active { opacity: 1; }
-.glass-cursor.is-hovering {
-  width: 56px;
-  height: 56px;
-  background: rgba(195, 216, 37, 0.20);
-  border-color: rgba(123, 162, 63, 0.55);
+.nav-list a:hover::before { opacity: 1; }
+
+/* Buttons：保持原本顏色，hover 時加一層玻璃光澤 */
+.btn { position: relative; overflow: hidden; isolation: isolate; }
+.btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg,
+    rgba(255, 255, 255, 0.40) 0%,
+    rgba(255, 255, 255, 0.05) 45%,
+    rgba(255, 255, 255, 0.25) 100%);
+  border-radius: inherit;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
 }
-.glass-cursor.is-clicking {
-  width: 22px;
-  height: 22px;
-  background: rgba(123, 162, 63, 0.35);
+.btn:hover::after { opacity: 1; }
+
+/* Tag 按鈕：玻璃 hover */
+.tag-btn { position: relative; overflow: hidden; }
+.tag-btn:not(.active)::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg,
+    rgba(255, 255, 255, 0.55),
+    rgba(195, 216, 37, 0.18));
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: inherit;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  pointer-events: none;
 }
-/* 桌機 hover 裝置：隱藏系統游標讓玻璃游標獨家上場 */
-@media (hover: hover) and (pointer: fine) {
-  html, body { cursor: none; }
-  a, button, input, select, textarea, [role="button"], .post-card, .tag-btn { cursor: none; }
+.tag-btn:not(.active):hover::after { opacity: 1; }
+
+/* 卡片 / 文章卡片：hover 時加玻璃光澤覆蓋層 */
+.card, .post-card {
+  position: relative;
+  isolation: isolate;
 }
-/* 觸控裝置不顯示自訂游標、保留系統指標 */
-@media (hover: none), (pointer: coarse) {
-  .glass-cursor { display: none !important; }
-  html, body, a, button { cursor: auto; }
+.card::after,
+.post-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg,
+    rgba(255, 255, 255, 0.45) 0%,
+    rgba(255, 255, 255, 0.08) 50%,
+    rgba(195, 216, 37, 0.10) 100%);
+  border-radius: inherit;
+  opacity: 0;
+  transition: opacity 0.32s ease;
+  pointer-events: none;
+  z-index: 1;
 }
+.card:hover::after,
+.post-card:hover::after { opacity: 1; }
+/* 確保卡片內文在玻璃光澤層之上 */
+.card > *,
+.post-card > * { position: relative; z-index: 2; }
 
 /* ===========================================================
    Google Translate 語言切換器（藏 Google 預設外觀，套自家樣式）
