@@ -83,37 +83,38 @@ p { color: var(--ink-700); }
 .site-header:hover,
 .site-header.is-scrolled,
 .site-header.is-focused {
-  background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: saturate(180%) blur(14px);
-  -webkit-backdrop-filter: saturate(180%) blur(14px);
-  border-bottom-color: var(--ink-200);
-  box-shadow: 0 2px 8px rgba(94, 126, 45, 0.06);
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-bottom-color: rgba(195, 216, 37, 0.25);
+  box-shadow: 0 4px 20px rgba(94, 126, 45, 0.08);
 }
 .header-inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 72px;
+  height: 88px;
 }
 .brand {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
   color: var(--ink-900);
+  transition: transform 0.25s ease;
 }
-.brand:hover { color: var(--ink-900); }
+.brand:hover { color: var(--ink-900); transform: translateY(-1px); }
 .brand-mark {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 42px;
-  height: 42px;
+  width: 56px;
+  height: 56px;
   background: linear-gradient(135deg, var(--blue-500), var(--green-300));
   color: #fff;
   font-weight: 700;
-  border-radius: 12px;
+  border-radius: 16px;
   font-size: 1.15rem;
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--shadow-md);
 }
 .brand-mark svg {
   width: 26px;
@@ -125,15 +126,23 @@ p { color: var(--ink-700); }
   stroke-linejoin: round;
 }
 .brand-mark img {
-  width: 28px;
-  height: 28px;
+  width: 36px;
+  height: 36px;
   display: block;
   /* 把深色 PNG 反白以在漸層底色上清楚顯示 */
   filter: brightness(0) invert(1);
 }
-.brand-text { display: flex; flex-direction: column; line-height: 1.15; }
-.brand-text strong { font-size: 1.05rem; }
-.brand-text small { color: var(--ink-500); font-size: 0.78rem; }
+.brand-text { display: flex; flex-direction: column; line-height: 1.2; }
+.brand-text strong {
+  font-size: 1.35rem;
+  letter-spacing: 0.02em;
+  color: var(--ink-900);
+}
+.brand-text small {
+  color: var(--ink-600);
+  font-size: 0.92rem;
+  margin-top: 2px;
+}
 
 .site-nav { display: flex; align-items: center; }
 .nav-list {
@@ -183,13 +192,13 @@ p { color: var(--ink-700); }
   overflow: hidden;
 }
 .hero::before {
-  /* 醫師手術照片底層 - 含緩慢 zoom-in 動畫 */
+  /* 醫師手術照片底層 - 緩慢 zoom-out 動畫，鏡頭由近拉遠 */
   content: '';
   position: absolute;
   inset: 0;
   background: url('/assets/images/hero-surgery.jpg') center 25% / cover no-repeat;
   z-index: -2;
-  animation: heroZoom 22s ease-out forwards;
+  animation: heroZoom 30s ease-out forwards;
   will-change: transform;
 }
 .hero::after {
@@ -205,8 +214,8 @@ p { color: var(--ink-700); }
   pointer-events: none;
 }
 @keyframes heroZoom {
-  /* zoom-out：載入瞬間略放大，緩慢拉回 1.0，像鏡頭往後退 */
-  from { transform: scale(1.10); }
+  /* zoom-out：載入瞬間明顯放大，慢慢拉回 1.0，像鏡頭往後退 */
+  from { transform: scale(1.25); }
   to   { transform: scale(1.00); }
 }
 .hero-grid {
@@ -382,6 +391,37 @@ p { color: var(--ink-700); }
 /* ===== Sections ===== */
 .section { padding: 80px 0; }
 .section-light { background: var(--blue-50); }
+
+/* 內視鏡室照片背景：用於「最新衛教文章」區塊 */
+.section-photo {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+.section-photo::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url('/assets/images/endoscope-room.jpg') center / cover no-repeat;
+  z-index: -2;
+  animation: sectionZoom 35s ease-out infinite alternate;
+  will-change: transform;
+}
+.section-photo::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(135deg, rgba(247, 250, 233, 0.82) 0%, rgba(242, 247, 234, 0.74) 100%),
+    radial-gradient(800px 400px at 0% 100%, rgba(195, 216, 37, 0.14), transparent 70%),
+    radial-gradient(700px 400px at 100% 0%, rgba(123, 162, 63, 0.12), transparent 60%);
+  z-index: -1;
+  pointer-events: none;
+}
+@keyframes sectionZoom {
+  from { transform: scale(1.00); }
+  to   { transform: scale(1.15); }
+}
 .section-accent {
   background: linear-gradient(135deg, var(--blue-600), var(--blue-700));
   color: #fff;
@@ -942,24 +982,47 @@ p { color: var(--ink-700); }
 }
 
 /* ===========================================================
-   Scroll-reveal 動畫
+   Scroll-reveal 動畫（多方向飛入、cathay-red 質感）
    =========================================================== */
 .reveal {
   opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
-              transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  transform: translateY(48px);
+  transition: opacity 0.85s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
 }
 .reveal.in-view {
   opacity: 1;
-  transform: translateY(0);
+  transform: translateY(0) translateX(0) scale(1);
 }
-/* 卡片群組 stagger 效果（後面的卡片晚一點亮起） */
-.grid-cards .reveal.in-view:nth-child(2) { transition-delay: 0.08s; }
-.grid-cards .reveal.in-view:nth-child(3) { transition-delay: 0.16s; }
-.grid-cards .reveal.in-view:nth-child(4) { transition-delay: 0.24s; }
-.grid-cards .reveal.in-view:nth-child(5) { transition-delay: 0.32s; }
-.grid-cards .reveal.in-view:nth-child(6) { transition-delay: 0.40s; }
+
+/* 從左飛入 */
+.reveal-left {
+  transform: translateX(-60px);
+}
+/* 從右飛入 */
+.reveal-right {
+  transform: translateX(60px);
+}
+/* 縮放浮現 */
+.reveal-scale {
+  transform: scale(0.92);
+}
+/* 大幅度往上飛 */
+.reveal-up-lg {
+  transform: translateY(80px);
+}
+
+/* 卡片群組 stagger 效果（依進場順序）*/
+.grid-cards .reveal.in-view:nth-child(1) { transition-delay: 0.05s; }
+.grid-cards .reveal.in-view:nth-child(2) { transition-delay: 0.15s; }
+.grid-cards .reveal.in-view:nth-child(3) { transition-delay: 0.25s; }
+.grid-cards .reveal.in-view:nth-child(4) { transition-delay: 0.35s; }
+.grid-cards .reveal.in-view:nth-child(5) { transition-delay: 0.45s; }
+.grid-cards .reveal.in-view:nth-child(6) { transition-delay: 0.55s; }
+
+/* Section head 比卡片再早一點點 */
+.section-head.reveal { transition-duration: 0.95s; }
 
 /* 尊重使用者「減少動畫」設定 */
 @media (prefers-reduced-motion: reduce) {
@@ -968,7 +1031,7 @@ p { color: var(--ink-700); }
     transform: none !important;
     transition: none !important;
   }
-  .hero::before { animation: none !important; }
+  .hero::before, .section-photo::before { animation: none !important; }
 }
 
 /* ===========================================================

@@ -45,35 +45,33 @@
   const switchers = document.querySelectorAll('[data-lang-switcher]');
   if (!switchers.length) return;
 
-  // 從 cookie 讀取目前語言（Google Translate 寫入的 googtrans）
+  // 從 cookie 讀取目前語言（Google Translate 用 googtrans cookie）
   function getCurrentLang() {
     const m = document.cookie.match(/googtrans=\/[^/]+\/([^;]+)/);
     return m ? m[1] : 'zh-TW';
   }
 
-  // 等 Google Translate select 出現後再呼叫
-  function waitForGoogleSelect(maxMs = 8000) {
-    return new Promise((resolve) => {
-      const start = Date.now();
-      const tick = () => {
-        const sel = document.querySelector('.goog-te-combo');
-        if (sel) return resolve(sel);
-        if (Date.now() - start > maxMs) return resolve(null);
-        setTimeout(tick, 120);
-      };
-      tick();
+  // 清除既有 googtrans cookie（多種 domain 變體都清）
+  function clearGoogtransCookies() {
+    const domains = ['', '.' + location.hostname, location.hostname];
+    domains.forEach((d) => {
+      document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/' + (d ? '; domain=' + d : '');
     });
   }
 
+  // 設定語言：寫入 cookie + reload，讓 Google Translate 整頁翻譯
   function setLang(lang) {
-    waitForGoogleSelect().then((sel) => {
-      if (!sel) {
-        console.warn('Google Translate not ready');
-        return;
-      }
-      sel.value = lang;
-      sel.dispatchEvent(new Event('change'));
-    });
+    clearGoogtransCookies();
+    if (lang === 'zh-TW') {
+      // 回到原文，重整即可
+      location.reload();
+      return;
+    }
+    const value = `/zh-TW/${lang}`;
+    document.cookie = `googtrans=${value}; path=/`;
+    // 同時對 root domain 設一次，避免子網域問題
+    try { document.cookie = `googtrans=${value}; path=/; domain=.${location.hostname}`; } catch (e) {}
+    location.reload();
   }
 
   switchers.forEach((root) => {
@@ -141,17 +139,32 @@
   if (prefersReduce) return;
 
   function setup() {
-    const targets = document.querySelectorAll([
-      '.hero-text', '.hero-card',
-      '.section-head',
-      '.card', '.post-card', '.info-block',
-      '.cta-card', '.bio-card',
-      '.cta-banner', '.notice-box',
-      '.contact-card', '.contact-side',
-      '.author-card', '.article-head',
-      '.media-list li'
-    ].join(','));
-    targets.forEach(el => el.classList.add('reveal'));
+    // 不同元件用不同方向，避免單調
+    const groups = [
+      { selector: '.hero-text',                cls: 'reveal reveal-left' },
+      { selector: '.hero-card',                cls: 'reveal reveal-right' },
+      { selector: '.section-head',             cls: 'reveal reveal-up-lg' },
+      { selector: '.card',                     cls: 'reveal reveal-scale' },
+      { selector: '.post-card',                cls: 'reveal' },
+      { selector: '.info-block',               cls: 'reveal reveal-left' },
+      { selector: '.cta-card',                 cls: 'reveal reveal-scale' },
+      { selector: '.bio-card',                 cls: 'reveal reveal-up-lg' },
+      { selector: '.cta-banner',               cls: 'reveal' },
+      { selector: '.notice-box',               cls: 'reveal' },
+      { selector: '.contact-card',             cls: 'reveal reveal-left' },
+      { selector: '.contact-side',             cls: 'reveal reveal-right' },
+      { selector: '.author-card',              cls: 'reveal reveal-scale' },
+      { selector: '.article-head',             cls: 'reveal reveal-up-lg' },
+      { selector: '.media-list li',            cls: 'reveal' }
+    ];
+
+    const allTargets = [];
+    groups.forEach(({ selector, cls }) => {
+      document.querySelectorAll(selector).forEach((el) => {
+        cls.split(' ').forEach((c) => el.classList.add(c));
+        allTargets.push(el);
+      });
+    });
 
     const io = new IntersectionObserver((entries) => {
       entries.forEach(e => {
@@ -160,9 +173,9 @@
           io.unobserve(e.target);
         }
       });
-    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    }, { threshold: 0.10, rootMargin: '0px 0px -60px 0px' });
 
-    targets.forEach(el => io.observe(el));
+    allTargets.forEach(el => io.observe(el));
   }
 
   if (document.readyState === 'loading') {
