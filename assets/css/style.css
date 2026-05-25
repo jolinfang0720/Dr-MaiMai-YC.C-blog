@@ -192,13 +192,14 @@ p { color: var(--ink-700); }
   overflow: hidden;
 }
 .hero::before {
-  /* 醫師手術照片底層 - 緩慢 zoom-out 動畫，鏡頭由近拉遠 */
+  /* 醫師手術照片底層 - 持續 Ken Burns 效果（慢縮放 + 平移） */
   content: '';
   position: absolute;
   inset: 0;
   background: url('/assets/images/hero-surgery.jpg') center 25% / cover no-repeat;
   z-index: -2;
-  animation: heroZoom 30s ease-out forwards;
+  transform-origin: center center;
+  animation: heroKenBurns 28s ease-in-out infinite alternate;
   will-change: transform;
 }
 .hero::after {
@@ -213,10 +214,17 @@ p { color: var(--ink-700); }
   z-index: -1;
   pointer-events: none;
 }
+@keyframes heroKenBurns {
+  /* Ken Burns 效果：縮放 + 緩慢平移，永不停止
+     從 1.18 縮到 1.00 再放回 1.18，alternate 讓它來回呼吸 */
+  0%   { transform: scale(1.18) translate(-2%, -1%); }
+  50%  { transform: scale(1.05) translate( 1%,  0%); }
+  100% { transform: scale(1.18) translate( 2%,  1%); }
+}
+/* 舊名稱別名（避免快取殘留錯誤） */
 @keyframes heroZoom {
-  /* zoom-out：載入瞬間明顯放大，慢慢拉回 1.0，像鏡頭往後退 */
-  from { transform: scale(1.25); }
-  to   { transform: scale(1.00); }
+  0%   { transform: scale(1.18); }
+  100% { transform: scale(1.00); }
 }
 .hero-grid {
   display: grid;
@@ -404,7 +412,8 @@ p { color: var(--ink-700); }
   inset: 0;
   background: url('/assets/images/endoscope-room.jpg') center / cover no-repeat;
   z-index: -2;
-  animation: sectionZoom 35s ease-out infinite alternate;
+  transform-origin: center center;
+  animation: sectionKenBurns 32s ease-in-out infinite alternate;
   will-change: transform;
 }
 .section-photo::after {
@@ -418,6 +427,13 @@ p { color: var(--ink-700); }
   z-index: -1;
   pointer-events: none;
 }
+@keyframes sectionKenBurns {
+  /* 內視鏡室照片：另一方向的 Ken Burns，避免跟 hero 同步 */
+  0%   { transform: scale(1.05) translate( 1%,  1%); }
+  50%  { transform: scale(1.18) translate(-2%, -1%); }
+  100% { transform: scale(1.05) translate(-1%,  2%); }
+}
+/* 舊名稱別名 */
 @keyframes sectionZoom {
   from { transform: scale(1.00); }
   to   { transform: scale(1.15); }
