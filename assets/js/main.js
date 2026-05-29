@@ -131,58 +131,111 @@
 })();
 
 /* -----------------------------------------------------------
-   Scroll-reveal：元素進入視窗時加 .in-view 觸發 CSS 動畫
+   AOS (Animate On Scroll) — 動態載入、自動分配進場動畫
    ----------------------------------------------------------- */
 (function () {
-  if (!('IntersectionObserver' in window)) return;
   const prefersReduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (prefersReduce) return;
 
-  function setup() {
-    // 不同元件用不同方向，避免單調
+  // 為尚未手動標記 data-aos 的元件自動分配進場效果
+  function assignAos() {
     const groups = [
-      { selector: '.hero-text',                cls: 'reveal reveal-left' },
-      { selector: '.hero-card',                cls: 'reveal reveal-right' },
-      { selector: '.section-head',             cls: 'reveal reveal-up-lg' },
-      { selector: '.card',                     cls: 'reveal reveal-scale' },
-      { selector: '.post-card',                cls: 'reveal' },
-      { selector: '.info-block',               cls: 'reveal reveal-left' },
-      { selector: '.cta-card',                 cls: 'reveal reveal-scale' },
-      { selector: '.bio-card',                 cls: 'reveal reveal-up-lg' },
-      { selector: '.cta-banner',               cls: 'reveal' },
-      { selector: '.notice-box',               cls: 'reveal' },
-      { selector: '.contact-card',             cls: 'reveal reveal-left' },
-      { selector: '.contact-side',             cls: 'reveal reveal-right' },
-      { selector: '.author-card',              cls: 'reveal reveal-scale' },
-      { selector: '.article-head',             cls: 'reveal reveal-up-lg' },
-      { selector: '.media-list li',            cls: 'reveal' }
+      { selector: '.hero-text',    aos: 'fade-right' },
+      { selector: '.hero-card',    aos: 'fade-left' },
+      { selector: '.section-head', aos: 'fade-up' },
+      { selector: '.card',         aos: 'zoom-in' },
+      { selector: '.post-card',    aos: 'fade-up' },
+      { selector: '.info-block',   aos: 'fade-right' },
+      { selector: '.cta-card',     aos: 'zoom-in' },
+      { selector: '.bio-card',     aos: 'fade-up' },
+      { selector: '.cta-banner',   aos: 'fade-up' },
+      { selector: '.notice-box',   aos: 'fade-up' },
+      { selector: '.contact-card', aos: 'fade-right' },
+      { selector: '.contact-side', aos: 'fade-left' },
+      { selector: '.author-card',  aos: 'zoom-in' },
+      { selector: '.article-head', aos: 'fade-up' },
+      { selector: '.faq-item',     aos: 'fade-up' },
+      { selector: '.media-list li', aos: 'fade-up' }
     ];
-
-    const allTargets = [];
-    groups.forEach(({ selector, cls }) => {
-      document.querySelectorAll(selector).forEach((el) => {
-        cls.split(' ').forEach((c) => el.classList.add(c));
-        allTargets.push(el);
+    groups.forEach(({ selector, aos }) => {
+      document.querySelectorAll(selector).forEach((el, i) => {
+        if (el.hasAttribute('data-aos')) return; // 尊重已手動標記者
+        el.setAttribute('data-aos', aos);
+        // 同群組依序加 delay 做 stagger
+        const within = el.closest('.grid-cards, .faq-list, .posts-grid');
+        if (within) el.setAttribute('data-aos-delay', String((i % 6) * 80));
       });
     });
+  }
 
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          e.target.classList.add('in-view');
-          io.unobserve(e.target);
-        }
+  function loadAOS() {
+    // CSS
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = 'https://unpkg.com/aos@2.3.4/dist/aos.css';
+    document.head.appendChild(link);
+    // JS
+    const script = document.createElement('script');
+    script.src = 'https://unpkg.com/aos@2.3.4/dist/aos.js';
+    script.async = true;
+    script.onload = function () {
+      assignAos();
+      window.AOS.init({
+        duration: 850,
+        easing: 'ease-out-cubic',
+        once: true,
+        offset: 90,
+        anchorPlacement: 'top-bottom'
       });
-    }, { threshold: 0.10, rootMargin: '0px 0px -60px 0px' });
-
-    allTargets.forEach(el => io.observe(el));
+      // 動態載入的文章卡片出現後刷新 AOS
+      window._refreshAOS = function () {
+        assignAos();
+        window.AOS.refreshHard();
+      };
+    };
+    // 保險：CDN 失敗時，移除所有 data-aos 讓內容正常顯示
+    function failsafe() {
+      if (window.AOS) return;
+      document.querySelectorAll('[data-aos]').forEach((el) => {
+        el.removeAttribute('data-aos');
+        el.style.opacity = '1';
+        el.style.transform = 'none';
+      });
+    }
+    script.onerror = failsafe;
+    setTimeout(failsafe, 4000);
+    document.body.appendChild(script);
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', setup);
+    document.addEventListener('DOMContentLoaded', loadAOS);
   } else {
-    setup();
+    loadAOS();
   }
+})();
+
+/* -----------------------------------------------------------
+   葉片 / 色塊 視差滾動（hero 多層裝飾）
+   ----------------------------------------------------------- */
+(function () {
+  const prefersReduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (prefersReduce) return;
+  const layers = document.querySelectorAll('[data-parallax]');
+  if (!layers.length) return;
+
+  let ticking = false;
+  function update() {
+    const y = window.scrollY;
+    layers.forEach((el) => {
+      const speed = parseFloat(el.getAttribute('data-parallax')) || 0.2;
+      el.style.transform = `translate3d(0, ${y * speed}px, 0)`;
+    });
+    ticking = false;
+  }
+  window.addEventListener('scroll', () => {
+    if (!ticking) { requestAnimationFrame(update); ticking = true; }
+  }, { passive: true });
+  update();
 })();
 
 
@@ -251,6 +304,7 @@ async function renderLatestPosts(containerId, limit = 3) {
     return;
   }
   el.innerHTML = posts.slice(0, limit).map(postCardHtml).join('');
+  if (typeof window._refreshAOS === 'function') window._refreshAOS();
 }
 
 /* -----------------------------------------------------------
@@ -304,6 +358,7 @@ async function renderAllPosts(containerId, searchId, tagFilterId) {
     } else {
       container.innerHTML = filtered.map(postCardHtml).join('');
     }
+    if (typeof window._refreshAOS === 'function') window._refreshAOS();
   }
 
   if (searchInput) {
