@@ -196,7 +196,7 @@ p { color: var(--ink-700); }
   content: '';
   position: absolute;
   inset: 0;
-  background: url('/assets/images/hero-surgery.jpg') center 25% / cover no-repeat;
+  background: url('/assets/images/dr-cheng-surgery.jpg') center 18% / cover no-repeat;
   z-index: -2;
   transform-origin: center center;
   animation: heroKenBurns 28s ease-in-out infinite alternate;
@@ -544,6 +544,10 @@ p { color: var(--ink-700); }
 }
 
 /* ===== 圓形專長區 serviceCircle ===== */
+/* 核心專長自製線條底圖 */
+.service-section {
+  background: var(--blue-50) url('/assets/images/lines-bg.svg') center / cover no-repeat;
+}
 .service-circle {
   position: relative;
   max-width: 1040px;
@@ -646,6 +650,25 @@ p { color: var(--ink-700); }
   width: 100%;
   height: auto;
   max-height: 72vh;
+}
+.photo-frame {
+  max-width: 860px;
+  margin: 40px auto 0;
+  border-radius: 18px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: var(--shadow-lg);
+}
+.photo-frame img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.photo-frame figcaption {
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--ink-500);
+  padding: 14px 16px;
 }
 
 /* ===== CTA Banner ===== */
