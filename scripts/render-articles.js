@@ -143,6 +143,7 @@ ${JSON.stringify(schema, null, 2)}
           <li><a href="/">首頁</a></li>
           <li><a href="/about">關於醫師</a></li>
           <li><a href="/blog" class="active">衛教文章</a></li>
+          <li><a href="/faq">常見問題</a></li>
           <li><a href="/contact">聯絡資訊</a></li>
         </ul>
         <div class="lang-switcher" data-lang-switcher>
@@ -268,6 +269,7 @@ const sitemapItems = [
   { loc: `${SITE_URL}/`,        lastmod: today, freq: 'weekly',  pri: '1.0' },
   { loc: `${SITE_URL}/about`,   lastmod: today, freq: 'monthly', pri: '0.9' },
   { loc: `${SITE_URL}/blog`,    lastmod: today, freq: 'weekly',  pri: '0.9' },
+  { loc: `${SITE_URL}/faq`,     lastmod: today, freq: 'monthly', pri: '0.9' },
   { loc: `${SITE_URL}/contact`, lastmod: today, freq: 'monthly', pri: '0.8' },
   ...manifest.map(p => ({
     loc: `${SITE_URL}/posts/${p.slug}`,
