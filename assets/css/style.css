@@ -72,8 +72,11 @@ p { color: var(--ink-700); }
   position: sticky;
   top: 0;
   z-index: 50;
-  background: transparent;
-  border-bottom: 1px solid transparent;
+  /* 全程毛玻璃：半透明白 + 背景模糊 */
+  background: rgba(255, 255, 255, 0.45);
+  backdrop-filter: saturate(180%) blur(18px);
+  -webkit-backdrop-filter: saturate(180%) blur(18px);
+  border-bottom: 1px solid rgba(195, 216, 37, 0.18);
   transition:
     background 0.32s ease,
     backdrop-filter 0.32s ease,
@@ -83,11 +86,12 @@ p { color: var(--ink-700); }
 .site-header:hover,
 .site-header.is-scrolled,
 .site-header.is-focused {
-  background: rgba(255, 255, 255, 0.78);
-  backdrop-filter: saturate(180%) blur(20px);
-  -webkit-backdrop-filter: saturate(180%) blur(20px);
-  border-bottom-color: rgba(195, 216, 37, 0.25);
-  box-shadow: 0 4px 20px rgba(94, 126, 45, 0.08);
+  /* 捲動後稍微加深、加陰影做出層次 */
+  background: rgba(255, 255, 255, 0.62);
+  backdrop-filter: saturate(180%) blur(22px);
+  -webkit-backdrop-filter: saturate(180%) blur(22px);
+  border-bottom-color: rgba(195, 216, 37, 0.30);
+  box-shadow: 0 4px 24px rgba(94, 126, 45, 0.10);
 }
 .header-inner {
   display: flex;
