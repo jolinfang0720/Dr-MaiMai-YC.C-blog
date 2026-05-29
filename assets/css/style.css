@@ -554,7 +554,8 @@ p { color: var(--ink-700); }
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  /* margin 置中而非 transform，避免被 AOS 的 inline transform 蓋掉 */
+  margin: -110px 0 0 -110px;
   width: 220px;
   height: 220px;
   border-radius: 50%;
@@ -624,14 +625,28 @@ p { color: var(--ink-700); }
 .service-item p { font-size: 0.92rem; color: var(--ink-600); line-height: 1.7; }
 
 /* 六角環繞定位（桌機） */
-.service-item.pos-1 { top: 0;      left: 50%; transform: translateX(-50%); }
+.service-item.pos-1 { top: 0;      left: 50%; margin-left: -125px; }
 .service-item.pos-2 { top: 24%;    right: 0; }
 .service-item.pos-3 { bottom: 24%; right: 0; }
-.service-item.pos-4 { bottom: 0;   left: 50%; transform: translateX(-50%); }
+.service-item.pos-4 { bottom: 0;   left: 50%; margin-left: -125px; }
 .service-item.pos-5 { bottom: 24%; left: 0; }
 .service-item.pos-6 { top: 24%;    left: 0; }
-.service-item.pos-1:hover,
-.service-item.pos-4:hover { transform: translateX(-50%) translateY(-6px) scale(1.03); }
+
+/* ===== 衛教影片 video ===== */
+.video-frame {
+  max-width: 860px;
+  margin: 0 auto;
+  border-radius: 18px;
+  overflow: hidden;
+  background: #000;
+  box-shadow: var(--shadow-lg);
+}
+.video-frame video {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 72vh;
+}
 
 /* ===== CTA Banner ===== */
 .cta-banner {
@@ -1509,6 +1524,7 @@ body { top: 0 !important; }
   .service-center {
     position: static;
     transform: none;
+    margin: 0;
     width: 100%;
     height: auto;
     border-radius: 20px;
@@ -1523,9 +1539,10 @@ body { top: 0 !important; }
   .service-item {
     position: static;
     width: auto;
+    margin-left: 0;
     transform: none !important;
   }
-  .service-item.pos-1, .service-item.pos-4 { transform: none !important; }
+  .service-item.pos-1, .service-item.pos-4 { margin-left: 0; transform: none !important; }
   .service-item:hover { transform: translateY(-6px) scale(1.02) !important; }
 }
 
