@@ -651,24 +651,26 @@ p { color: var(--ink-700); }
   height: auto;
   max-height: 72vh;
 }
-.photo-frame {
-  max-width: 860px;
-  margin: 40px auto 0;
-  border-radius: 18px;
+/* 衛教影片區塊：以醫師手術照作為底圖 */
+.video-section {
+  position: relative;
+  isolation: isolate;
   overflow: hidden;
-  background: #fff;
-  box-shadow: var(--shadow-lg);
 }
-.photo-frame img {
-  display: block;
-  width: 100%;
-  height: auto;
+.video-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url('/assets/images/hero-surgery.jpg') center / cover no-repeat;
+  z-index: -2;
 }
-.photo-frame figcaption {
-  text-align: center;
-  font-size: 0.9rem;
-  color: var(--ink-500);
-  padding: 14px 16px;
+.video-section::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(247, 250, 233, 0.88) 0%, rgba(242, 247, 234, 0.82) 100%);
+  z-index: -1;
+  pointer-events: none;
 }
 
 /* ===== CTA Banner ===== */
